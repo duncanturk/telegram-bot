@@ -64,6 +64,6 @@ Specifying a date works like setting the time but using a dot instead of a colon
 
 ---
 
-Both date and time can be given. The order doesn't matter. so `/r .12 :30 test` and `/r :30 12. test` are equivalent and valid.
+Both date and time can be given. The order doesn't matter. so `/r .12 :30 test` and `/r :30 .12 test` are equivalent and valid.
 
 Delays and time specifications cannot be combined.
