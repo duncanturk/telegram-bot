@@ -1,6 +1,6 @@
 package de.twoyang.telegram.bot.tb.functions;
 
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
  * Interface which every Funcation of the Bot should implement.

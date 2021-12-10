@@ -4,11 +4,11 @@ import de.twoyang.telegram.bot.tb.functions.BotFunction;
 import de.twoyang.telegram.bot.tb.functions.FunctionManager;
 import de.twoyang.telegram.bot.tb.helper.messages.SerializableTimedMessage;
 import de.twoyang.telegram.bot.tb.helper.messages.TimedMessage;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -110,7 +110,8 @@ public class Bot extends TelegramLongPollingBot implements FunctionManager {
         if (sb.length() > 0)
             sb.substring(0, sb.length() - "\n=======\n".length());
         SendMessage message = new SendMessage();
-        message.setChatId(update.getMessage().getChatId()).setText(sb.toString());
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message.setText(sb.toString());
         send(message);
     }
 
@@ -148,10 +149,12 @@ public class Bot extends TelegramLongPollingBot implements FunctionManager {
             save();
     }
 
+
+
     public Message send(SendMessage m) {
         Message m1 = null;
         try {
-            m1 = sendMessage(m);
+            m1 = execute(m);
             System.out.println(sdf.format(new Date()) + ": Bot: " + m1.getText());
         } catch (TelegramApiException e) {
             e.printStackTrace();

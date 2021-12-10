@@ -2,9 +2,9 @@ package de.twoyang.telegram.bot.tb;
 
 import de.twoyang.telegram.bot.tb.functions.reminder.RemindFunction;
 import de.twoyang.telegram.bot.tb.helper.config.Config;
-import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.IOException;
 
@@ -13,11 +13,9 @@ import java.io.IOException;
  * @since 2/24/17
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws TelegramApiException {
 
-        ApiContextInitializer.init();
-
-        TelegramBotsApi botsApi = new TelegramBotsApi();
+        TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
 
         try {
             Bot bob = new Bot();

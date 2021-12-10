@@ -1,7 +1,7 @@
 package de.twoyang.telegram.bot.tb.helper.messages;
 
 import de.twoyang.telegram.bot.tb.helper.Helper;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -59,6 +59,9 @@ public class SerializableTimedMessage implements Serializable {
     }
 
     public TimedMessage getTimedMessage() {
-        return new TimedMessage(getDueDate(), new SendMessage().setText(getText()).setChatId(getChatId()), getId());
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setText(getText());
+        sendMessage.setChatId(String.valueOf(getChatId()));
+        return new TimedMessage(getDueDate(),sendMessage, getId());
     }
 }

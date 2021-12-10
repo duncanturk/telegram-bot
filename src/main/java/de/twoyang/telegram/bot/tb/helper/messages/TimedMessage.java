@@ -1,7 +1,7 @@
 package de.twoyang.telegram.bot.tb.helper.messages;
 
 import de.twoyang.telegram.bot.tb.helper.Helper;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.util.Date;
 

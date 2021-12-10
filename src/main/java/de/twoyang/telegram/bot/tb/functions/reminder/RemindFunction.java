@@ -3,8 +3,8 @@ package de.twoyang.telegram.bot.tb.functions.reminder;
 import de.twoyang.telegram.bot.tb.functions.BotFunctionImpl;
 import de.twoyang.telegram.bot.tb.functions.FunctionManager;
 import de.twoyang.telegram.bot.tb.helper.messages.SerializableTimedMessage;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -99,7 +99,10 @@ public class RemindFunction extends BotFunctionImpl {
         String searchText = msgText.substring(msgText.indexOf(" ", msgText.indexOf(" ") + 1) + 1);
         Collection<SerializableTimedMessage> remToRemove = serializableTimedMessages.stream().filter(r -> r.getChatId() == update.getMessage().getChatId()).filter(r -> r.getText().toLowerCase().contains(searchText.toLowerCase())).collect(Collectors.toList());
         String message = reminderList(remToRemove.stream());
-        manager.send(new SendMessage().setChatId(update.getMessage().getChatId()).setText("Folgende Erinnerungen werden entfernt:\n" + message));
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
+        sendMessage.setText("Folgende Erinnerungen werden entfernt:\n" + message);
+        manager.send(sendMessage);
         serializableTimedMessages.removeAll(remToRemove);
         manager.removeOutstandingMessages(remToRemove.stream().map(SerializableTimedMessage::getTimedMessage).collect(Collectors.toList()));
         save();
@@ -116,9 +119,9 @@ public class RemindFunction extends BotFunctionImpl {
             sb.append(reminderList(serializableTimedMessages.stream().filter(serializableTimedMessage -> serializableTimedMessage.getChatId() == update.getMessage().getChatId())));
         } else
             sb.append("Du hast keine Erinnerungen..");
-        SendMessage message0 = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText(sb.toString());
+        SendMessage message0 = new SendMessage();
+        message0.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message0.setText(sb.toString());
         manager.send(message0);
     }
 
@@ -136,23 +139,23 @@ public class RemindFunction extends BotFunctionImpl {
             }
         } else
             sb.append("Es gibt keine Erinnerungen..");
-        SendMessage message0 = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText(sb.toString());
+        SendMessage message0 = new SendMessage();
+        message0.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message0.setText(sb.toString());
         manager.send(message0);
     }
 
     private void countAllReminders(Update update) {
-        SendMessage message0 = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText(serializableTimedMessages.size() + " Erinnerungen stehen insgesamt noch an");
+        SendMessage message0 = new SendMessage();
+        message0.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message0.setText(serializableTimedMessages.size() + " Erinnerungen stehen insgesamt noch an");
         manager.send(message0);
     }
 
     private void countReminders(Update update) {
-        SendMessage message0 = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText(serializableTimedMessages.stream().filter(serializableTimedMessage -> serializableTimedMessage.getChatId() == update.getMessage().getChatId()).count() + " Erinnerungen stehen für diesen Chat noch an");
+        SendMessage message0 = new SendMessage();
+        message0.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message0.setText(serializableTimedMessages.stream().filter(serializableTimedMessage -> serializableTimedMessage.getChatId() == update.getMessage().getChatId()).count() + " Erinnerungen stehen für diesen Chat noch an");
         manager.send(message0);
     }
 
@@ -225,9 +228,9 @@ public class RemindFunction extends BotFunctionImpl {
         serializableTimedMessage.setChatId(update.getMessage().getChatId());
         serializableTimedMessages.add(serializableTimedMessage);
         save();
-        SendMessage message0 = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Ich erinnere dich!\n" + shortDateTimeFormat.format(serializableTimedMessage.getDueDate()));
+        SendMessage message0 = new SendMessage();
+        message0.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message0.setText("Ich erinnere dich!\n" + shortDateTimeFormat.format(serializableTimedMessage.getDueDate()));
         manager.sendTimed(serializableTimedMessage.getTimedMessage());
         manager.send(message0);
     }

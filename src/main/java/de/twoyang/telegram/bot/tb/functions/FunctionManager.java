@@ -1,8 +1,8 @@
 package de.twoyang.telegram.bot.tb.functions;
 
 import de.twoyang.telegram.bot.tb.helper.messages.TimedMessage;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.Collection;
 
